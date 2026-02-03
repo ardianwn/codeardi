@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react'
 import { FaChevronLeft, FaChevronRight, FaQuoteLeft, FaStar } from 'react-icons/fa'
 
 export default function Testimonials() {
-  const { t } = useLanguage()
+  const { t, locale } = useLanguage()
   const [activeIndex, setActiveIndex] = useState(0)
   const [isAnimating, setIsAnimating] = useState(false)
 
@@ -31,23 +31,44 @@ export default function Testimonials() {
     }
   }, [isAnimating])
 
+  // Auto-play testimonials
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (!isAnimating) {
+        nextTestimonial()
+      }
+    }, 6000)
+    return () => clearInterval(interval)
+  }, [isAnimating])
+
   const currentTestimonial = testimonials[activeIndex]
 
   return (
-    <section id="testimonials" className="py-20 px-4 sm:px-6 lg:px-8" aria-labelledby="testimonials-heading">
-      <div className="max-w-5xl mx-auto">
+    <section id="testimonials" className="section-padding relative overflow-hidden bg-white" aria-labelledby="testimonials-heading">
+      {/* Background */}
+      <div className="absolute inset-0 bg-gradient-to-b from-white via-gray-50/30 to-white"></div>
+      <div className="absolute inset-0 grid-pattern opacity-30"></div>
+      
+      {/* Decorative Elements */}
+      <div className="blob blob-primary w-[400px] h-[400px] top-1/4 -right-32 opacity-10"></div>
+      <div className="blob blob-primary w-[300px] h-[300px] bottom-1/4 -left-32 opacity-10"></div>
+      
+      <div className="relative z-10 max-w-7xl mx-auto">
         {/* Section Header */}
-        <div className="text-center mb-12 animate-slide-up">
-          <h2 id="testimonials-heading" className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+        <div className="section-header animate-slide-up">
+          <div className="badge badge-primary mb-4">
+            <span>{locale === 'id' ? 'Testimoni Klien' : 'Client Testimonials'}</span>
+          </div>
+          <h2 id="testimonials-heading" className="section-title">
             {t.testimonials.title}
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="section-description">
             {t.testimonials.description}
           </p>
         </div>
 
         {/* Testimonial Carousel */}
-        <div className="relative bg-white rounded-3xl shadow-xl p-8 sm:p-12 md:p-16">
+        <div className="relative glass rounded-2xl p-6 sm:p-8 lg:p-10 shadow-soft-xl max-w-4xl mx-auto">
           {/* Content with fade transition */}
           <div 
             key={activeIndex}
@@ -55,33 +76,34 @@ export default function Testimonials() {
           >
             {/* Quote Icon */}
             <div className="flex justify-center mb-6">
-              <div className="w-16 h-16 bg-primary-50 rounded-full flex items-center justify-center">
-                <FaQuoteLeft className="text-primary-600 text-2xl" />
+              <div className="w-14 h-14 bg-gradient-to-br from-primary-100 to-primary-50 rounded-xl flex items-center justify-center shadow-soft rotate-3">
+                <FaQuoteLeft className="text-primary-600 text-xl" />
               </div>
             </div>
 
             {/* Rating Stars */}
-            <div className="flex items-center justify-center space-x-1 mb-6">
+            <div className="flex items-center justify-center gap-1 mb-6">
               {[...Array(currentTestimonial.rating)].map((_, i) => (
-                <FaStar key={i} className="text-yellow-400 text-xl" />
+                <FaStar key={i} className="text-yellow-400 text-lg drop-shadow-sm" />
               ))}
             </div>
 
             {/* Testimonial Text */}
             <div className="text-center mb-8">
-              <p className="text-gray-800 text-lg sm:text-xl leading-relaxed max-w-3xl mx-auto">
+              <p className="text-gray-800 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto italic">
                 "{currentTestimonial.text}"
               </p>
             </div>
 
             {/* Author Info */}
             <div className="flex flex-col items-center">
-              <h3 className="text-xl font-bold text-gray-900">{currentTestimonial.name}</h3>
-              <p className="text-gray-600">
+              <h3 className="text-lg font-bold text-gray-900">{currentTestimonial.name}</h3>
+              <p className="text-gray-600 text-sm">
                 {currentTestimonial.role} at {currentTestimonial.company}
               </p>
-              <p className="text-sm text-gray-500 mt-1">
-                {currentTestimonial.flag} {currentTestimonial.country}
+              <p className="text-xs text-gray-500 mt-1 flex items-center gap-1.5">
+                <span className="text-base">{currentTestimonial.flag}</span>
+                <span>{currentTestimonial.country}</span>
               </p>
             </div>
           </div>
@@ -90,23 +112,23 @@ export default function Testimonials() {
           <button
             onClick={prevTestimonial}
             disabled={isAnimating}
-            className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white rounded-full shadow-lg hover:shadow-xl transition-all flex items-center justify-center text-gray-600 hover:text-primary-600 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="absolute left-2 lg:-left-5 top-1/2 -translate-y-1/2 w-10 h-10 bg-white rounded-lg shadow-soft hover:shadow-lg transition-all flex items-center justify-center text-gray-600 hover:text-primary-600 disabled:opacity-50 disabled:cursor-not-allowed group"
             aria-label="Previous testimonial"
           >
-            <FaChevronLeft />
+            <FaChevronLeft className="text-sm transition-transform group-hover:-translate-x-0.5" />
           </button>
           <button
             onClick={nextTestimonial}
             disabled={isAnimating}
-            className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white rounded-full shadow-lg hover:shadow-xl transition-all flex items-center justify-center text-gray-600 hover:text-primary-600 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="absolute right-2 lg:-right-5 top-1/2 -translate-y-1/2 w-10 h-10 bg-white rounded-lg shadow-soft hover:shadow-lg transition-all flex items-center justify-center text-gray-600 hover:text-primary-600 disabled:opacity-50 disabled:cursor-not-allowed group"
             aria-label="Next testimonial"
           >
-            <FaChevronRight />
+            <FaChevronRight className="text-sm transition-transform group-hover:translate-x-0.5" />
           </button>
         </div>
 
         {/* Dots Indicator */}
-        <div className="flex justify-center space-x-2 mt-8">
+        <div className="flex justify-center gap-1.5 mt-6">
           {testimonials.map((_, index) => (
             <button
               key={index}
@@ -117,8 +139,8 @@ export default function Testimonials() {
                 }
               }}
               disabled={isAnimating}
-              className={`h-3 rounded-full transition-all duration-300 disabled:cursor-not-allowed ${
-                index === activeIndex ? 'bg-primary-600 w-8' : 'bg-gray-300 w-3 hover:bg-gray-400'
+              className={`h-2 rounded-full transition-all duration-300 disabled:cursor-not-allowed ${
+                index === activeIndex ? 'bg-primary-600 w-6' : 'bg-gray-300 w-2 hover:bg-gray-400'
               }`}
               aria-label={`Go to testimonial ${index + 1}`}
             />

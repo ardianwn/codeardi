@@ -15,20 +15,31 @@ export default function Services() {
   const hasMore = services.length > 6
 
   return (
-    <section id="services" className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-50" aria-labelledby="services-heading">
-      <div className="max-w-7xl mx-auto">
+    <section id="services" className="section-padding relative overflow-hidden bg-gray-50" aria-labelledby="services-heading">
+      {/* Background */}
+      <div className="absolute inset-0 bg-gradient-to-b from-gray-50 via-white/50 to-gray-50"></div>
+      <div className="absolute inset-0 dot-pattern opacity-30"></div>
+      
+      {/* Decorative Elements */}
+      <div className="blob blob-primary w-[400px] h-[400px] -top-48 -left-48 opacity-10"></div>
+      <div className="blob blob-primary w-[300px] h-[300px] bottom-0 right-0 opacity-10"></div>
+      
+      <div className="relative z-10 max-w-7xl mx-auto">
         {/* Section Header */}
-        <div className="text-center mb-16 animate-slide-up">
-          <h2 id="services-heading" className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+        <div className="section-header animate-slide-up">
+          <div className="badge badge-primary mb-4">
+            <span>{locale === 'id' ? 'Layanan Kami' : 'Our Services'}</span>
+          </div>
+          <h2 id="services-heading" className="section-title">
             {t.services.title}
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="section-description">
             {t.services.description}
           </p>
         </div>
 
         {/* Services Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {displayedServices.map((service, index) => (
             <ServiceCard key={index} service={service} index={index} />
           ))}
@@ -36,13 +47,13 @@ export default function Services() {
 
         {/* Show More Button */}
         {hasMore && (
-          <div className="text-center mt-12">
+          <div className="text-center mt-12 lg:mt-16 animate-fade-in">
             <button
               onClick={() => setShowAll(!showAll)}
-              className="inline-flex items-center space-x-2 bg-white text-primary-600 px-8 py-3 rounded-lg border-2 border-primary-600 hover:bg-primary-50 transition-all duration-200 font-medium shadow-md hover:shadow-lg"
+              className="btn-secondary group"
             >
               <span>{showAll ? (locale === 'id' ? 'Tampilkan Lebih Sedikit' : 'Show Less') : (locale === 'id' ? 'Tampilkan Lebih Banyak' : 'Show More')}</span>
-              {showAll ? <FaChevronUp /> : <FaChevronDown />}
+              {showAll ? <FaChevronUp className="transition-transform group-hover:-translate-y-0.5" /> : <FaChevronDown className="transition-transform group-hover:translate-y-0.5" />}
             </button>
           </div>
         )}

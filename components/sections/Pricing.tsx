@@ -25,24 +25,36 @@ export default function Pricing() {
   }
 
   return (
-    <section id="pricing" className="py-20 px-4 sm:px-6 lg:px-8" aria-labelledby="pricing-heading">
-      <div className="max-w-7xl mx-auto">
+    <section id="pricing" className="section-padding relative overflow-hidden bg-gray-50" aria-labelledby="pricing-heading">
+      {/* Background */}
+      <div className="absolute inset-0 bg-gradient-to-b from-gray-50 via-white/50 to-gray-50"></div>
+      <div className="absolute inset-0 dot-pattern opacity-30"></div>
+      
+      {/* Decorative Elements */}
+      <div className="blob blob-primary w-[500px] h-[500px] top-0 -right-64 opacity-10"></div>
+      <div className="blob blob-primary w-[400px] h-[400px] bottom-1/4 -left-48 opacity-10"></div>
+      
+      <div className="relative z-10 max-w-7xl mx-auto">
         {/* Section Header */}
-        <div className="text-center mb-16 animate-slide-up">
-          <h2 id="pricing-heading" className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+        <div className="section-header animate-slide-up">
+          <div className="badge badge-primary mb-4">
+            <span>{locale === 'id' ? 'Harga Transparan' : 'Transparent Pricing'}</span>
+          </div>
+          <h2 id="pricing-heading" className="section-title">
             {t.pricing.title}
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="section-description">
             {t.pricing.description}
           </p>
         </div>
 
         {/* Pricing Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {displayedPlans.map((plan, index) => (
             <PricingCard 
               key={index} 
               plan={plan} 
+              index={index}
               onWhatsAppClick={() => handleWhatsAppClick(plan.name)} 
             />
           ))}
@@ -50,13 +62,13 @@ export default function Pricing() {
 
         {/* Show More Button */}
         {hasMore && (
-          <div className="text-center mt-12">
+          <div className="text-center mt-12 lg:mt-16 animate-fade-in">
             <button
               onClick={() => setShowAll(!showAll)}
-              className="inline-flex items-center space-x-2 bg-white text-primary-600 px-8 py-3 rounded-lg border-2 border-primary-600 hover:bg-primary-50 transition-all duration-200 font-medium shadow-md hover:shadow-lg"
+              className="btn-secondary group"
             >
               <span>{showAll ? (locale === 'id' ? 'Tampilkan Lebih Sedikit' : 'Show Less') : (locale === 'id' ? 'Tampilkan Lebih Banyak' : 'Show More')}</span>
-              {showAll ? <FaChevronUp /> : <FaChevronDown />}
+              {showAll ? <FaChevronUp className="transition-transform group-hover:-translate-y-0.5" /> : <FaChevronDown className="transition-transform group-hover:translate-y-0.5" />}
             </button>
           </div>
         )}

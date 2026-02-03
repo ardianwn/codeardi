@@ -22,36 +22,39 @@ export default function Navbar() {
   ]
 
   return (
-    <nav className="fixed w-full bg-white/90 backdrop-blur-md shadow-sm z-50">
+    <nav className="fixed w-full bg-white/80 backdrop-blur-xl border-b border-gray-100/50 z-50 transition-all duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center h-16">
+        <div className="flex items-center h-18 py-3">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2 flex-shrink-0">
-            <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-700 rounded-lg flex items-center justify-center">
+          <Link href="/" className="flex items-center gap-3 flex-shrink-0 group">
+            <div className="relative w-11 h-11 bg-gradient-to-br from-primary-500 to-primary-700 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-glow transition-all duration-300">
               <span className="text-white font-bold text-xl">{companyInfo.shortName}</span>
+              <div className="absolute inset-0 bg-gradient-to-br from-primary-400 to-primary-600 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <span className="absolute text-white font-bold text-xl">{companyInfo.shortName}</span>
             </div>
-            <span className="text-xl font-bold text-gray-800">{companyInfo.name}</span>
+            <span className="text-xl font-bold text-gray-900 hidden sm:block">{companyInfo.name}</span>
           </Link>
 
           {/* Desktop Navigation - Centered */}
-          <div className="hidden md:flex items-center justify-center flex-1 space-x-8">
+          <div className="hidden lg:flex items-center justify-center flex-1 gap-1">
             {navItems.map((item) => (
               <a
                 key={item.name}
                 href={item.href}
-                className="text-gray-700 hover:text-primary-600 transition-colors duration-200 font-medium"
+                className="relative px-4 py-2 text-gray-700 hover:text-primary-600 transition-colors duration-200 font-medium rounded-lg hover:bg-primary-50 group"
               >
                 {item.name}
+                <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-primary-500 rounded-full group-hover:w-1/2 transition-all duration-300"></span>
               </a>
             ))}
           </div>
 
           {/* Right Actions */}
-          <div className="hidden md:flex items-center space-x-4 flex-shrink-0">
+          <div className="hidden lg:flex items-center gap-3 flex-shrink-0">
             <LanguageSwitcher />
             <a
               href="#pricing"
-              className="bg-primary-600 text-white px-6 py-2 rounded-lg hover:bg-primary-700 transition-colors duration-200 font-medium"
+              className="bg-gradient-to-r from-primary-600 to-primary-700 text-white px-6 py-2.5 rounded-xl hover:from-primary-700 hover:to-primary-800 transition-all duration-300 font-semibold shadow-lg hover:shadow-glow hover:-translate-y-0.5"
             >
               {t.nav.getStarted}
             </a>
@@ -60,37 +63,39 @@ export default function Navbar() {
           {/* Mobile menu button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden text-gray-700 hover:text-primary-600 transition-colors ml-auto"
+            className="lg:hidden w-10 h-10 flex items-center justify-center text-gray-700 hover:text-primary-600 hover:bg-primary-50 rounded-xl transition-all ml-auto"
             aria-label="Toggle menu"
           >
-            {isOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
+            {isOpen ? <FaTimes size={22} /> : <FaBars size={22} />}
           </button>
         </div>
 
         {/* Mobile Navigation */}
         {isOpen && (
-          <div className="md:hidden py-4 animate-fade-in">
-            <div className="flex flex-col space-y-4">
+          <div className="lg:hidden py-4 animate-slide-down border-t border-gray-100">
+            <div className="flex flex-col gap-1">
               {navItems.map((item) => (
                 <a
                   key={item.name}
                   href={item.href}
-                  className="text-gray-700 hover:text-primary-600 transition-colors duration-200 font-medium px-2"
+                  className="text-gray-700 hover:text-primary-600 hover:bg-primary-50 transition-all duration-200 font-medium px-4 py-3 rounded-xl"
                   onClick={handleNavClick}
                 >
                   {item.name}
                 </a>
               ))}
-              <div className="px-2">
+              <div className="px-4 py-2">
                 <LanguageSwitcher />
               </div>
-              <a
-                href="#pricing"
-                className="bg-primary-600 text-white px-6 py-2 rounded-lg hover:bg-primary-700 transition-colors duration-200 font-medium text-center"
-                onClick={handleNavClick}
-              >
-                {t.nav.getStarted}
-              </a>
+              <div className="px-4 pt-2">
+                <a
+                  href="#pricing"
+                  className="block w-full bg-gradient-to-r from-primary-600 to-primary-700 text-white px-6 py-3 rounded-xl hover:from-primary-700 hover:to-primary-800 transition-all duration-200 font-semibold text-center shadow-lg"
+                  onClick={handleNavClick}
+                >
+                  {t.nav.getStarted}
+                </a>
+              </div>
             </div>
           </div>
         )}
