@@ -1,0 +1,9 @@
+{
+  "name": "CodeArdi - Jasa Pembuatan Website",
+  "short_name": "CodeArdi",
+  "description": "Layanan pembuatan website profesional",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0ea5e9"
+}
