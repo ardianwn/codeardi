@@ -5,7 +5,6 @@ import { useLanguage } from '@/lib/language-context'
 import {
   FaEnvelope,
   FaFacebookF,
-  FaHeart,
   FaInstagram,
   FaLinkedinIn,
   FaMapMarkerAlt,
@@ -153,8 +152,8 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="border-t border-gray-800 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-gray-500 text-sm flex items-center gap-1">
-              © {currentYear} {companyInfo.name}. Made with <FaHeart className="text-red-500 text-xs" /> {t.footer.allRightsReserved}.
+            <p className="text-gray-500 text-sm">
+              © {currentYear} {companyInfo.name}. {t.footer.allRightsReserved}.
             </p>
             <div className="flex gap-6 text-sm">
               <a href="#" className="text-gray-500 hover:text-primary-400 transition-colors">
